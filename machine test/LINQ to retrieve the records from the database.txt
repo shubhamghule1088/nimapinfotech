@@ -1,0 +1,13 @@
+public IEnumerable<Product> GetProductsWithPagination(int pageSize, int pageNumber)
+{
+    return _dbContext.Products.Include(p => p.Category)
+        .OrderBy(p => p.Id)
+        .Skip((pageNumber - 1) * pageSize)
+        .Take(pageSize)
+        .ToList();
+}
+
+
+
+var productService = new ProductRepository(new MyDbContext());
+var products = productService.GetProductsWithPagination(10, 9);
